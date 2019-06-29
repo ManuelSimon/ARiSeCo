@@ -50,6 +50,8 @@ Para facer o estudo dun xeito práctico, empregaremos as ferramentas _Docker Hub
 
 ![clairDocker](figuras/clairDocker.png)
 
+---
+
 ### Validación de imaxes
 
 Continuando co estudo previo, o seguinte paso é asegurar a validación das imaxes, de forma que estas non sexan modificadas por persoas non autorizadas nin sufran cambios indesexábeis.
@@ -67,6 +69,8 @@ Realización de probas de _ARP spoofing_, _Man in the middle_ e _MAC flooding_.
 
 
 ![ataqueMacFlooding](figuras/ataqueMacFlooding.png)
+
+---
 
 ### Limitación de recursos
 
