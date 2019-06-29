@@ -1,0 +1,43 @@
+\chapter{Conclusións e posíbeis ampliacións}
+\minitoc
+\clearpage
+
+\section{Conclusións}
+
+Ao longo deste documento foron estudadas as implicacións de seguridade na emprega de contedores nun entorno \gls{HPC}, analizando para tal fin tres das tecnoloxías de contedorización máis soadas neste eido. Amosáronse diversos puntos de falla e estudáronse as súas implicacións dun xeito teórico-práctico, evidenciando os riscos asociados a tales tecnoloxías se non son tratadas con coidado.\\
+
+Os resultados do estudo atópanse resumidos na táboa \ref{resumoRiscosSolucions}, onde se amosan os riscos detectados así como posíbeis solucións aos mesmos. \\
+
+\begin{table}[]
+\centering
+\caption{Resumo dos riscos atopados e as súas posíbeis solucións}
+\label{resumoRiscosSolucions}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+ & \begin{turn}{90} Explotación do \textit{kernel} \end{turn} & \begin{turn}{90} Ataques de \gls{DoS} \end{turn} & \begin{turn}{90} Escalada de privilexios \end{turn} & \begin{turn}{90} Vulnerabilidades en imaxes \space \end{turn} & \begin{turn}{90} Segredos comprometidos \end{turn} \\ \hline
+Contedores correndo sobre \gls{MV}s & \rotatebox[origin=c]{270}{$\Lsh$} &  & \rotatebox[origin=c]{270}{$\Lsh$} &  &  \\ \hline
+Limitación de recursos &  & \rotatebox[origin=c]{270}{$\Lsh$} &  &  &  \\ \hline
+Validación de imaxes &  &  &  & \rotatebox[origin=c]{270}{$\Lsh$} &  \\ \hline
+Emprega de sistemas de só lectura & \rotatebox[origin=c]{270}{$\Lsh$} & \rotatebox[origin=c]{270}{$\Lsh$} & \rotatebox[origin=c]{270}{$\Lsh$} &  & \rotatebox[origin=c]{270}{$\Lsh$} \\ \hline
+Non empregar variábeis de entorno &  &  &  &  & \rotatebox[origin=c]{270}{$\Lsh$} \\ \hline
+Non empregar o flag \textit{--privileged} & \rotatebox[origin=c]{270}{$\Lsh$} &  & \rotatebox[origin=c]{270}{$\Lsh$} &  & \rotatebox[origin=c]{270}{$\Lsh$} \\ \hline
+Inhabilitar a comunicación entre contedores & \rotatebox[origin=c]{270}{$\Lsh$} & \rotatebox[origin=c]{270}{$\Lsh$} & \rotatebox[origin=c]{270}{$\Lsh$} &  &  \\ \hline
+Emprega de volumes de só lectura & \rotatebox[origin=c]{270}{$\Lsh$} &  & \rotatebox[origin=c]{270}{$\Lsh$} &  &  \\ \hline
+Principio de manter só o esencial & \rotatebox[origin=c]{270}{$\Lsh$} &  & \rotatebox[origin=c]{270}{$\Lsh$} &  &  \\ \hline
+Limitar as chamadas ao \textit{kernel} & \rotatebox[origin=c]{270}{$\Lsh$} & \rotatebox[origin=c]{270}{$\Lsh$} &  &  &  \\ \hline
+Manter actualizado o entorno &  &  & \rotatebox[origin=c]{270}{$\Lsh$} &  &  \\ \hline
+Non dar acceso a directorios perigosos & \rotatebox[origin=c]{270}{$\Lsh$} &  & \rotatebox[origin=c]{270}{$\Lsh$} &  & \rotatebox[origin=c]{270}{$\Lsh$} \\ \hline
+Ferramentas anti \gls{OOM} &  & \rotatebox[origin=c]{270}{$\Lsh$} &  &  &  \\ \hline
+Mecanismos externos de seguridade & \rotatebox[origin=c]{270}{$\Lsh$} &  & \rotatebox[origin=c]{270}{$\Lsh$} &  &  \\ \hline
+Detección de vulnerabilidades en imaxes &  &  &  & \rotatebox[origin=c]{270}{$\Lsh$} &  \\ \hline
+ \end{tabular}
+}
+\end{table}
+
+Grazas ao feito de empregar unha metodoloxía áxil como Scrum, o nivel de incerteza que implicaba o proxecto foi solucionado, avanzando no seu desenvolvemento a medida que o estudo permitía a obtención de novos datos e o acceso a un nivel de refinamento maior. Tentar realizar o desenvolvemento deste proxecto cunha metodoloxía tradicional resultaría moi arriscado, debido ao gran descoñecemento sobre os conceptos do estudo nun comezo. Polo tanto, podemos concluír que a elección dunha metodoloxía áxil foi adecuada e axudou ao desenvolvemento do proxecto.
+
+\section{Traballo futuro}
+
+Debido ás fortes limitacións temporais ás que se afrontou o proxecto, non foi posíbel realizar unha gran cantidade de probas, mais si quedaron mostradas as partes esenciais do estudo. Unha futura continuidade deste proxecto podería pasar pola realización dun maior número de probas. Outra limitación importante viu dada pola inexistencia da tecnoloxía de contedorización Docker no \gls{FT2}, un dos entornos de proba nos que se desenvolvía o proxecto. Unha vez dita tecnoloxía estea configurada no entorno, será posíbel realizar estudos máis concretos sobre a mesma. Por exemplo, a configuración do sistema atendendo ás medidas de auditoría da ferramenta \textit{Docker Bench Audit Tool}.
+

@@ -1,0 +1,178 @@
+\chapter{Códigos}
+\minitoc
+\clearpage
+
+Códigos empregados para a realización de diferentes probas ao longo do proxecto desenvolvido.
+
+\section{Despregamento das probas \gls{ARP} \textit{spoofing} e \gls{MAC} \textit{flooding}}
+\label{codigo-arp-spoofing}
+
+\textbf{Fonte}: propia.
+
+\begin{lstlisting}[,caption={Arquivo docker-compose.yml empregado para a realización de probas de rede \gls{ARP} \textit{spoofing} e \gls{MAC} \textit{flooding}}]
+version: "2"
+
+services:
+    nginx:
+        image: nginx:latest
+        command: nginx-debug -g 'daemon off;'
+        volumes:
+           - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+        ports:
+            - "8080:80"
+    ubuntu:
+        image: ubuntu:latest
+        bash -c "apt-get update &&  apt-get -y install net-tools curl && apt-get clean && tail -F anything"
+    kali:
+        image: kalilinux/kali-linux-docker:latest
+        command: bash -c "apt-get update && apt-get -y upgrade &&  apt-get -y install dnsutils net-tools dsniff iproute2 tcpdump && apt-get clean && tail -F anything"
+        expose:
+           - "80"
+\end{lstlisting}
+
+\section{\textit{Sniffer} de paquetes con \textit{sockets raw}}
+\label{esnifador}
+
+\textbf{Autor}: Diego Ferro
+
+\textbf{Fonte}: \url{https://github.com/MrSegfault/sniffer\_redes}
+
+\begin{lstlisting}[,caption={\textit{Sniffer} de paquetes con \textit{sockets raw}}]
+#include<stdio.h>
+#include<stdlib.h>
+#include<sys/types.h>
+#include<sys/socket.h>
+#include<netinet/in.h>
+#include<netinet/tcp.h>
+#include<netinet/udp.h>
+#include<netinet/ip_icmp.h>
+#include<netdb.h>
+#include<string.h>
+#include<unistd.h>
+#include<sys/ioctl.h>
+#include<net/if.h>
+#include<netinet/if_ether.h>
+
+int main(int argc, char** argv){
+        int s,contr;
+        struct ifreq ifr;
+        unsigned char buf[65536];
+        unsigned int buflen=65536*sizeof(unsigned char);
+        ssize_t rec;
+        int i;
+        gid_t gid;
+        uid_t uid;
+
+        gid = 0;
+        uid = 0;
+
+        setresgid(gid, gid, gid);
+        setresuid(uid, uid, uid);
+
+        if(argc!=2){
+                printf("Numero incorrecto de argumentos\n");
+                exit(1);
+        }
+
+        s=socket(AF_PACKET,SOCK_RAW,htons(ETH_P_ALL));
+        contr=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
+        if(s<0 || contr<0){
+                perror("Error al crear sockets");
+                exit(1);
+        }
+        strcpy(ifr.ifr_name,argv[1]);
+        if(ioctl(contr,SIOCGIFFLAGS,&ifr)<0){
+                perror("Error al conseguir estado\n");
+                exit(1);
+        }
+        ifr.ifr_flags |= IFF_PROMISC;
+        if(ioctl(contr,SIOCSIFFLAGS,&ifr)<0){
+                perror("Error activando el modo promiscuo\n");
+                exit(1);
+        }
+        while((rec=recv(s,buf,buflen,0))>0){
+                for(i=0;i<rec;i++){
+                        printf("%c",buf[i]);
+                }
+                printf("\n");
+        }
+        ifr.ifr_flags &= ~IFF_PROMISC;
+        if(ioctl(contr,SIOCSIFFLAGS,&ifr)<0){
+                perror("Error desactivando el modo promiscuo\n");
+                exit(1);
+        }
+        close(contr);
+        close(s);
+
+        return 0;
+}
+\end{lstlisting}
+
+
+\section{Programa consumidor de memoria}
+\label{consumidorMemoria}
+
+\textbf{Fonte}: propia.
+
+\begin{lstlisting}[,caption={Código programa consumidor de memoria}]
+#include <stdlib.h>
+
+void f(long double *a){
+	a = (long double *)malloc(sizeof(long double) * 1000);
+}
+
+int main(void) {
+	long double *a;
+
+        while(1) {
+		f(a);
+        }
+        return 0;
+}
+
+\end{lstlisting}
+
+\section{\gls{QoS} da rede mediante \textit{tc} en contedores Singularity}
+\label{scriptQoSSingularity}
+
+\begin{lstlisting}[,caption={Script QoS da rede mediante {\tt tc} en contedores Singularity}]
+useradd -c "User 1" user1 -m -s /bin/bash
+useradd -c "User 2" user2 -m -s /bin/bash
+# passwd user1
+# passwd user2
+tc qdisc add dev eth0 root handle 1: prio
+tc qdisc add dev eth0 parent 1:1 handle 10: tbf limit 1514b burst 1514b rate 40kbit
+tc qdisc add dev eth0 parent 1:2 handle 20: tbf limit 1514b burst 1514b rate 10kbit
+iptables -A OUTPUT -t mangle -m owner --uid-owner user1 -j MARK --set-mark 5
+iptables -A OUTPUT -t mangle -m owner --uid-owner user2 -j MARK --set-mark 10
+tc filter add dev eth0 parent 1:0 protocol ip prio 1 handle 5 fw flowid 1:1
+tc filter add dev eth0 parent 1:0 protocol ip prio 1 handle 10 fw flowid 1:2
+\end{lstlisting}
+
+
+\section{\gls{QoS} da rede mediante \textit{tc} en contedores Docker}
+\label{scriptQoSDocker}
+
+\textbf{Fonte}: propia.
+
+\begin{lstlisting}[,caption={Script QoS da rede mediante {\tt tc} en contedores Docker}]
+tc qdisc add dev veth2ea45b6 root tbf rate 1024kbit latency 50ms burst 200
+\end{lstlisting}
+
+
+\section{Cotas de disco}
+\label{scriptQuotas}
+
+\textbf{Fonte}: propia.
+
+\begin{lstlisting}[,caption={Cuotas de disco}]
+# useradd -c "Nuevo Usuario Cuotas" nuevousuariocuotas -m -s /bin/bash -g staff
+# passwd nuevousuariocuotas
+apt-get install quota
+echo "UUID=deb5e4ba-4656-4331-8bf2-6a3450425c3e /               ext4    defaults,usrjquota=aquota.user,grpjquota=aquota.group,jqfmt=vfsv0,errors=remount-ro   0       1" >> /etc/fstab
+mount -vo remount /
+quotacheck -vguma
+quotaon -va
+edquota -u nuevousuariocuotas -f /
+    # Engadimos: /dev/vda1                      2416      10000     100000         14        0        0
+\end{lstlisting}

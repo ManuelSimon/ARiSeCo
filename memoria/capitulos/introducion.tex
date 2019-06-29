@@ -1,0 +1,47 @@
+\chapter{Introdución}
+\minitoc
+\clearpage
+
+\hyphenation{In-te-re-se}
+
+\section{Motivación do proxecto}
+
+O uso de sistemas \gls{HPC} vese ás veces limitado pola complexidade de compilar as aplicacións en entornos nos cales non foi desenvolvido o software e que dificilmente poden ser alterados. A virtualización podería facilitar potencialmente a emprega dun maior espectro de aplicacións nestes entornos, pero habitualmente implica unha redución importante de rendemento, especialmente cando é precisa a emprega de sistemas hardware específicos, como redes para o pase de mensaxes entre procesadores (comunicacións \gls{MPI} en redes de baixa latencia).\\
+
+A emprega de tecnoloxías de contedorización, no entanto, non implica sobrecusto pola virtualización e, ao mesmo tempo, permite empregar librarías que non se atopan no sistema operativo da máquina anfitrioa. No marco do proxecto europeo ``\textit{Mathematical Modelling, Simulation and Optimization for Societal Challenges with Scientific Computing}'' (MSO4SC) no que participa o \gls{CESGA}, achouse que esta tecnoloxía, empregando aplicacións \gls{HPC} con \gls{MPI} e en entornos de supercomputación como o Finis Terrae II, ofrece un rendemento similar ao das aplicacións compiladas en nativo.\\
+
+Deste xeito, os contedores provén unha alternativa eficiente, portábel e lixeira para a virtualización cada vez máis estandarizada na industria, claramente diferenciados das máquinas virtuais baseadas nun hipervisor. Os contedores son procesos lixeiros que se executan illados doutros procesos do sistema, mais compartindo o \textit{kernel} coa máquina anfitrioa, acadando así un funcionamento moito máis eficiente e uns tamaños reducidos imposíbeis de conseguir coa emprega de máquinas virtuais. Este motivo tamén os fai extremadamente rápidos e doados de transportar, facendo que o uso destes entornos sumamente portábeis resulte de grande interese para a comunidade científica. Ademais de permitir dividir os entornos de produción e despregamento sen termos que nos preocupar pola futura compatibilidade dos proxectos nos distintos entornos, tamén resultan útiles para amosar resultados de investigacións. Por exemplo, cando un autor publica un artigo científico explicando as súas investigacións, tamén pode axuntar a dito artigo a imaxe na que realizou ditas probas. Deste xeito, calquera podería despregar un contedor e reproducir as probas realizadas dun xeito cómodo e rápido.\\
+
+Non obstante, esta partilla que os contedores realizan do \textit{kernel} supón un importante punto de falla. Unha fenda de seguridade no proceso executado dentro dun contedor podería pór en perigo á integridade do \textit{kernel} da máquina anfitrioa. Esta falla podería afectar ao contedor en si mesmo, mais tamén a outros contedores executados na mesma máquina ou incluso ao propio sistema da máquina anfitrioa.\\
+
+Ao longo deste documento serán identificadas posíbeis fallas de seguridade na emprega de contedores nun entorno de computación de altas prestacións multiusuario. Unha vez detectadas, ditas vulnerabilidades serán explotadas para evidenciar o risco que supón e finalmente, serán explicadas unha serie de recomendacións e correccións para evitar ou diminuír tales riscos.
+
+\section{Obxectivos}
+
+Os obxectivos deste proxecto céntranse en dous puntos:
+
+\begin{enumerate}
+    \item Analizar distintas implantacións de tecnoloxías de contedorización: Docker, Singularity e Udocker, dende o punto de vista das implicacións de seguridade.
+    \item Determinar os cambios necesarios para poder empregar contedores nun entorno \gls{HPC} multiusuario de xeito seguro.
+\end{enumerate}
+
+\section{Organización do documento}
+
+A organización deste documento é a que segue:
+
+\begin{enumerate}[{Capítulo }1: ]
+    \item Trátase do capítulo actual.
+    \item Unha breve introdución ás diferentes tecnoloxías de contedorización coas que trataremos ao longo de todo o proxecto.
+    \item Xestión do proxecto na que avaliaranse aspectos como a xestión de riscos, a planificación temporal, os presupostos ou a definición do alcance.
+    \item Neste capítulo especificaranse os requisitos que o proxecto debe cumprir.
+    \item Posto que este proxecto será desenvolvido no \gls{CESGA}, cómpre realizar unha explicación das infraestruturas que empregaremos, así como algunhas das tecnoloxías que poderemos utilizar.
+    \item Neste capítulo teranse en conta os riscos aos que un sistema baseado en contedores débese afrontar antes incluso de tratar cos mesmos. Debido á mobilidade que presentan os contedores, debemos estudar antes a existencia de vulnerabilidades nos mesmos, para non pór en risco o noso propio sistema.
+    \item Continuando co estudo previo, o seguinte paso é asegurar a validación das imaxes, de forma que estas non sexan modificadas por persoas non autorizadas nin sufran cambios indesexábeis.
+    \item Comezando co estudo do noso propio sistema, un dos aspectos máis controvertidos á hora de traballar con contedores é o seu xeito de xestionar as redes. Dependendo da tecnoloxía de contedorización a empregar esta xestión será completamente diferente e suporá a existencia de diferentes riscos.
+    \item Cando facemos emprega de contedores nun entorno multiusuario debemos ter en conta que existe a posibilidade de que un contedor se apropie de todos os recursos, deixando aos demais inútiles. Un control dos recursos dos que dispón cada contedor é un punto importante neste tipo de entornos.
+    \item Posto que máquina anfitrioa e contedores comparten recursos delicados, como pode ser o mesmo \textit{kernel}, é importante estudar unha posíbel escalada de privilexios dende os mesmos, o que suporía un grave vector de ataque para o resto do sistema.
+    \item Realizado xa o estudo de diferentes fallas de seguridade, será posíbel dar unha serie de propostas ou boas prácticas para mellorar a seguridade do sistema.
+    \item A fin do proxecto, unhas breves conclusións, así como posíbeis ampliacións do mesmo.
+\end{enumerate} 
+
+A maiores indicar que ao final do documento será posíbel consultar os códigos dos diferentes \textit{scripts} a empregar ao longo do proxecto. Tamén cómpre especificar que as diferentes probas serán realizadas a medida que se desenvolve o estudo, en cada un dos apartados.

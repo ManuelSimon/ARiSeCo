@@ -1,0 +1,48 @@
+\chapter{Escalada de privilexios}
+\minitoc
+\clearpage
+
+\section{Introdución}
+
+Neste capítulo trataremos sobre cuestións relativas á escalada de privilexios dende os contedores, sendo a premisa unha posíbel execución de código de superusuario dende un contedor non autorizado para isto. Ao tratar cun sistema multiusuario, isto podería ter consecuencias moi graves, dende a alteración non lexítima dunha execución ata o roubo de información confidencial doutro usuario. De acadar éxito un tipo de ataque coma este nun centro coas características do \gls{CESGA}, podería ter consecuencias nefastas. Por exemplo, se mediante unha escalada un usuario non desexado obtén permisos de superusuario podería alterar ou eliminar información pertencente a un gran número de usuarios e alterar o desenvolvemento da comunidade científica que fai uso dos seus sistemas.
+
+\section{Docker}
+
+Cando tratamos de realizar probas de escalada de privilexios, existen moitos xeitos de abordalas, o que implica gran variabilidade destas probas segundo a configuración sistema, a versión concreta do programa a explotar, etc. Tamén debemos ter en conta que, polo de agora, non está instalada a tecnoloxía de contedorización Docker no \gls{FT2}, o que nos impide actuar con certeza sobre unha versión concreta da mesma. Estes factores, engadindo que se tratan de probas complexas, fan que realizar un estudo de posíbeis escaladas de usuario dende contedores Docker sexa unha labor complicada e gran consumidora de tempo. Debido a estas limitacións, decidiuse deixar fóra do alcance do proxecto ditas probas, xa que non serían abordábeis coas fortes limitacións de tempo ás que se afronta este proxecto.
+
+\section{Singularity}
+\label{demo-fail-escalada}
+
+Para comprobar que o fluxo de execución de Singularity funciona correctamente, permitindo soamente a execución segundo os permisos do usuario que executou o contedor (é dicir, que o usuario que eras fóra é o mesmo que es dentro do contedor), tratarase de executar un \textit{script} propiedade de \textit{root} co \textit{setuid} activado.\\
+
+Seguindo a lóxica de execución e permisos en sistemas GNU/Linux, o executábel debería lanzarse coma se fose \textit{root} quen o invocara, xa que esta é a propiedade que outorga o \textit{setuid}. Non obstante, segundo o explicado con anterioridade, Singularity debería impedir unha escalada de privilexios coma esta, e executar o programa cos permisos habituais do usuario, ignorando así o \textit{setuid}.\\
+
+O executábel escollido é un programa \textit{sniffer} de paquetes en rede escrito en C con \textit{sockets raw}, cuxo código pode ser consultado no anexo \ref{esnifador}. O motivo para a escolla deste tipo de programa é que para a emprega de \textit{sockets raw} son precisos permisos de superusuario, ademais de que de ser quen de executar dito programa, suporía unha falla importante na seguridade xa que permitiría a un usuario normal facer escoita dos paquetes que transcorren pola rede. A comprobación realizouse da seguinte maneira:
+
+\begin{enumerate}
+\item Modificación dos permisos para habilitar a execución coma superusuario do executábel.
+
+\begin{lstlisting}[]
+chmod 4755 sniffer
+\end{lstlisting}
+
+\item Execución dende fóra do contedor coma usuario sen permisos de \textit{root}.
+
+A execución foi adecuada e o programa funcionou con normalidade, permitindo a súa execución con permisos de superusuario e consentindo así a captura de paquetes da rede.
+
+\item Execución dende dentro dun contedor.
+
+Neste caso, o programa non acada executar coma superusuario, non tendo por tanto acceso aos \textit{sockets raw} e impedindo así súa execución.
+
+\begin{lstlisting}[]
+./sniffer eth0
+Error al crear sockets: Operation not permitted
+\end{lstlisting}
+
+Queda por tanto, probado o feito de que a tecnoloxía de contedorización Singularity evita dun xeito adecuado a execución de novos procesos co \textit{setuid} activado, unha vez o contedor foi levantado no sistema.
+
+\end{enumerate}
+
+\section{Udocker}
+
+Debido a que Udocker é unha ferramenta que xamais obtén nin precisa de privilexios de superusuario, resulta extremadamente complexo que sexa posíbel realizar unha escalada de privilexios dende a mesma. Polo tanto, este caso de estudo queda descartado.

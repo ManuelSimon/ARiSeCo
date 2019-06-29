@@ -1,0 +1,18 @@
+version: "2"
+
+services:
+	nginx:
+		image: nginx:latest
+		comman: nginx-debug -g 'daeom off;'
+		volumes:
+			- ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+		ports:
+			- "8080:80"
+	ubuntu:
+		image: ubuntu:latest
+		bash -c "apt-get update && apt-get -y install net-tools curl && apt-get clean && tail -F anything"
+	kali:
+		image: kalilinux/kali-linux-docker:latest
+		command: bash -c "apt-get update && apt-get -y upgrade && apt-get -y install dnsutils net-tools dsniff iproute2 tcpdump && tail -F anything"
+		expose:
+			- "80"

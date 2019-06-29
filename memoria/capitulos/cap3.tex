@@ -1,0 +1,198 @@
+\chapter{Especificación de requisitos}
+\minitoc
+\clearpage
+
+\section{Limitacións}
+
+Este capítulo está adicado á recollida e especificación de requisitos que debe cumprir o proxecto. Non obstante, ao non ser un proxecto de desenvolvemento software, esta análise deberá ser adaptada como se indica a continuación:
+
+\begin{itemize}
+    \item \textbf{No referente aos casos de uso:} a extracción de casos de uso é unha técnica amplamente empregada no desenvolvemento de software para a obtención de información no referente ao que o sistema debe facer a alto nivel. No entanto, ao non existir un desenvolvemento software na realización deste proxecto, non será posíbel obter ou definir casos de uso.
+    
+    \item \textbf{No referente aos actores:} podemos definir aos actores como representacións dos usuario que van empregar o sistema. Novamente, ao non existir un sistema software a desenvolver, non ten sentido a definición de actores neste proxecto.
+    
+    \item \textbf{No referente aos requisitos funcionais:} os requisitos funcionais fan referencia ás funcionalidades que definen o software tal e como o usuario final ou o cliente o entenden. Polos mesmos motivos, non será factíbel a definición de requisitos funcionais.
+    
+    \item \textbf{No referente á matriz de trazabilidade:} a matriz de trazabilidade relaciona os casos de uso cos requisitos funcionais. Ao non existiren nin uns nin outros, non é posíbel a creación da mesma.
+
+    \item \textbf{No referente aos requisitos non funcionais:} os requisitos non funcionais son aqueles que, se ben indican requirimentos a acadar na realización do proxecto, non poden ser considerados coma funcionalidades. Polo tanto, estes son os tipos de requisitos que terá este proxecto.
+\end{itemize}
+
+\section{Requisitos non funcionais}
+
+Para o estudo dos requisitos non funcionais, primeiramente farase un listado dos mesmos, seguindo as indicacións do \gls{CESGA} para a realización do proxecto. Posteriormente realizarase unha explicación dos mesmos polo miúdo, ademais de indicar a importancia que se lles confire no proxecto.
+
+\subsection{Listado de requisitos non funcionais}
+
+\begin{enumerate}[{RNF}1: ]
+    \item Realización do estudo de seguridade con 3 tecnoloxías de contedorización: Docker, Singularity e Udocker.
+    \item Detección de riscos de seguridade na emprega de contedores nun entorno \gls{HPC}.
+    \item Clasificación de riscos de seguridade segundo o tipo de tecnoloxía de contedorización na emprega de contedores nun entorno \gls{HPC}.
+    \item Clasificación de riscos de seguridade segundo a súa natureza na emprega de contedores nun entorno \gls{HPC}.
+    \item Estudo teórico dos riscos de seguridade.
+    \item Estudo práctico dos riscos de seguridade.
+    \item Definición dun método para a detección de vulnerabilidades en imaxes.
+    \item Definición dun mecanismo de validación de imaxes.
+    \item Estudo da limitación dos recursos na emprega de contedores.
+    \item Estudo do reforzamento da seguridade mediante a emprega de medidas externas.
+    \item Redacción de boas prácticas e recomendacións para a correcta emprega de contedores nun entorno \gls{HPC}.
+    \item Emprega de software libre ou de balde.
+\end{enumerate}
+
+\subsection{Explicación dos requisitos non funcionais}
+
+\begin{table}[H]
+\centering
+\caption{Requisito non funcional RNF1}
+\label{RNF1}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{ID} & RNF1 \\ \hline
+\textbf{Nome} & Realización do estudo de seguridade con 3 tecnoloxías de contedorización: Docker, Singularity e Udocker. \\ \hline
+\textbf{Descrición} & Será preciso estudar diferentes tecnoloxías de contedorización, co fin de detectar as vantaxes que presentan as unhas sobre as outras no referente á seguridade. \\ \hline
+\textbf{Importancia} & Vital \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Requisito non funcional RNF2}
+\label{RNF2}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{ID} & RNF2 \\ \hline
+\textbf{Nome} & Detección de riscos de seguridade na emprega de contedores nun entorno \gls{HPC}. \\ \hline
+\textbf{Descrición} & Descubrir cales poderían ser os posíbeis vectores de ataque e debilidades na seguridade no uso de contedores. \\ \hline
+\textbf{Importancia} & Vital \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Requisito non funcional RNF3}
+\label{RNF3}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{ID} & RNF3 \\ \hline
+\textbf{Nome} & Clasificación de riscos de seguridade segundo o tipo de tecnoloxía de contedorización na emprega de contedores nun entorno \gls{HPC}. \\ \hline
+\textbf{Descrición} & Xa detectados riscos, clasificalos segundo o tipo de tecnoloxía de contedorización, axudando a completar o RNF1. \\ \hline
+\textbf{Importancia} & Vital \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Requisito non funcional RNF4}
+\label{RNF4}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{ID} & RNF4 \\ \hline
+\textbf{Nome} & Clasificación de riscos de seguridade segundo a súa natureza na emprega de contedores nun entorno \gls{HPC}. \\ \hline
+\textbf{Descrición} & Xa detectados riscos, clasificalos segundo a súa natureza, para permitir un posterior estudo: rede, escalada de privilexios, denegación de servizo, etc. \\ \hline
+\textbf{Importancia} & Vital \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Requisito non funcional RNF5}
+\label{RNF5}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{ID} & RNF5 \\ \hline
+\textbf{Nome} & Estudo teórico dos riscos de seguridade. \\ \hline
+\textbf{Descrición} & Xa detectados e clasificados os riscos, realizar un estudo teórico dos mesmos, para comprender o perigo asociado á súa existencia. Nalgúns casos, este estudo teórico abondará. \\ \hline
+\textbf{Importancia} & Vital \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Requisito non funcional RNF6}
+\label{RNF6}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{ID} & RNF6 \\ \hline
+\textbf{Nome} & Estudo práctico dos riscos de seguridade. \\ \hline
+\textbf{Descrición} & Realizado o estudo teórico, farase unha posta en práctica na que se explotarán certas vulnerabilidades achadas, evidenciando o seu perigo para o sistema. \\ \hline
+\textbf{Importancia} & Desexábel \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Requisito non funcional RNF7}
+\label{RNF7}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{ID} & RNF7 \\ \hline
+\textbf{Nome} & Definición dun método para a detección de vulnerabilidades en imaxes. \\ \hline
+\textbf{Descrición} & Procurarase un mecanismo que permita a procura de vulnerabilidades en imaxes, probabelmente baseado na emprega de ferramentas xa existentes. Será preciso realizar unha explicación do seu funcionamento. \\ \hline
+\textbf{Importancia} & Vital \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Requisito non funcional RNF8}
+\label{RNF8}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{ID} & RNF8 \\ \hline
+\textbf{Nome} & Definición dun mecanismo de validación de imaxes. \\ \hline
+\textbf{Descrición} & Procura e explicación dun método que permita garantir a validación das imaxes. Isto é, garantir aspectos como autenticación integridade e non repudio. \\ \hline
+\textbf{Importancia} & Vital \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Requisito non funcional RNF9}
+\label{RNF9}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{ID} & RNF9 \\ \hline
+\textbf{Nome} & Estudo da limitación dos recursos na emprega de contedores. \\ \hline
+\textbf{Descrición} & Procura de mecanismos que permitan limitar os recursos a empregar por un contedor. Explicación do seu funcionamento. \\ \hline
+\textbf{Importancia} & Vital \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Requisito non funcional RNF10}
+\label{RNF10}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{ID} & RNF10 \\ \hline
+\textbf{Nome} & Estudo do reforzamento da seguridade mediante a emprega de medidas externas. \\ \hline
+\textbf{Descrición} & Investigación de medidas externas (alleas ás propias tecnoloxías de contedorización) que permitan engadir unha capa de seguridade no sistema, de xeito que este resulte máis seguro no seu conxunto para a emprega de contedores. \\ \hline
+\textbf{Importancia} & Desexábel \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Requisito non funcional RNF11}
+\label{RNF11}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{ID} & RNF11 \\ \hline
+\textbf{Nome} & Redacción de boas prácticas e recomendacións para a correcta emprega de contedores nun entorno \gls{HPC}. \\ \hline
+\textbf{Descrición} & Finalizado o estudo sobre os riscos de seguridade na emprega de contedores en \gls{HPC}, serán explicadas unha serie de prácticas que permitan mellorar a seguridade destes entornos. \\ \hline
+\textbf{Importancia} & Desexábel \\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Requisito non funcional RNF12}
+\label{RNF12}
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\textbf{ID} & RNF12 \\ \hline
+\textbf{Nome} & Emprega de software libre ou de balde. \\ \hline
+\textbf{Descrición} & O software a empregar ao longo do desenvolvemento deste proxecto debe ser libre ou de balde. Por esta razón, quedará fóra do estudo a versión \textit{Enterprise Edition} de Docker, a cal é unha solución comercial non gratuíta. \\ \hline
+\textbf{Importancia} & Vital \\ \hline
+\end{tabularx}
+\end{table}
